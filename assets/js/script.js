@@ -4,6 +4,8 @@ var taskIdCounter = 0;
 var pageContentEl = document.querySelector("#page-content");
 var tasksInProgressEl = document.querySelector("#tasks-in-progress");
 var taskCompletedEl = document.querySelector("#tasks-completed");
+var tasks = [
+];
 
 
 var taskFormHandler = function (event) {
@@ -34,6 +36,7 @@ var taskFormHandler = function (event) {
         var taskDataObj = {
             name: taskNameInput,
             type: taskTypeInput,
+            status: "to do",
         };
         //send it as an arguement to createtaks el
     createTaskEl(taskDataObj);
@@ -55,6 +58,8 @@ var completeEditTask = function (taskName, taskType, taskId) {
             tasks[i].name = taskName;
             tasks[i].type = taskType;
         }
+
+        saveTasks();
     };
 
     alert("Task Updated!");
@@ -88,6 +93,8 @@ var createTaskEl = function(taskDataObj) {
         taskDataObj.id = taskIdCounter;
 
         tasks.push(taskDataObj);
+
+        saveTasks();
     
         //add entire list item to list
         tasksToDoEl.appendChild(listItemEl);
@@ -172,6 +179,8 @@ var deleteTask = function(taskId) {
     }
     // reassign tasks array to be the same as updated TaskArr
     tasks = updatedTaskArr;
+
+    saveTasks();
 };
 
 var editTask = function(taskId) {
@@ -216,28 +225,14 @@ var taskStatusChangeHandler = function(event) {
             tasks[i].status = statusValue;
         }
     }
+
+    saveTasks();
 };
 
-var tasks = [
-    {
-        id: 1,
-        name: taskNameInput,
-        type: taskTypeInput,
-        status:"to do"
-    },
-    {
-        id: 2,
-        name: "Learn JavaScript",
-        type: "Web",
-        Status: "in progress"
-    },
-    {
-        id: 3,
-        name: "Refractor code",
-        type: "Web",
-        Status: "in progress"
-    }
-];
+var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+
+}
 
 formEl.addEventListener("submit", taskFormHandler);
 
