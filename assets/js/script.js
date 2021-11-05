@@ -49,6 +49,14 @@ var completeEditTask = function (taskName, taskType, taskId) {
     taskSelected.querySelector("h3.task-name").textContent = taskName;
     taskSelected.querySelector("span.task-type").textContent = taskType;
 
+    //loop through arrays ad task object with new content
+    for ( var i = 0; i < tasks.length; i++) {
+        if (tasks[i].id === parseInt(taskId)) {
+            tasks[i].name = taskName;
+            tasks[i].type = taskType;
+        }
+    };
+
     alert("Task Updated!");
 
     formEl.removeAttribute("data-task-id");
@@ -76,6 +84,10 @@ var createTaskEl = function(taskDataObj) {
 
         var taskActionsEl = createTaskActions(taskIdCounter);
         listItemEl.appendChild(taskActionsEl);
+
+        taskDataObj.id = taskIdCounter;
+
+        tasks.push(taskDataObj);
     
         //add entire list item to list
         tasksToDoEl.appendChild(listItemEl);
@@ -146,6 +158,20 @@ var taskButtonHandler = function(event) {
 var deleteTask = function(taskId) {
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
     taskSelected.remove();
+
+    //crete new array to hold updated list of tasks
+    var updatedTaskArr = [];
+
+    // loop through current tasks
+    for (var i = 0; i < tasks.length; i++) {
+        
+        //if tasks i doesn't match the values of the task id lets keep the task and push it to the new array
+        if (tasks[i].id !== parseInt(taskId)) {
+            updatedTaskArr.push(tasks[i]);
+        }
+    }
+    // reassign tasks array to be the same as updated TaskArr
+    tasks = updatedTaskArr;
 };
 
 var editTask = function(taskId) {
@@ -183,7 +209,35 @@ var taskStatusChangeHandler = function(event) {
     else if (statusValue === "completed") {
         taskCompletedEl.appendChild(taskSelected);
     }
+
+    // update tasks in the tasks array
+    for (var i = 0; i < tasks.length; i++) {
+        if (tasks[i].id === parseInt(taskId)) {
+            tasks[i].status = statusValue;
+        }
+    }
 };
+
+var tasks = [
+    {
+        id: 1,
+        name: taskNameInput,
+        type: taskTypeInput,
+        status:"to do"
+    },
+    {
+        id: 2,
+        name: "Learn JavaScript",
+        type: "Web",
+        Status: "in progress"
+    },
+    {
+        id: 3,
+        name: "Refractor code",
+        type: "Web",
+        Status: "in progress"
+    }
+];
 
 formEl.addEventListener("submit", taskFormHandler);
 
