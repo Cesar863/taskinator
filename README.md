@@ -14,7 +14,9 @@ A web application that allows users to manage workflow and tasks. Users can crea
 - Users can move task from `To Do` to `In Progress` to `Completed`.
 - Users can delete a task.
 
-## Screenshots
+## Screenshot
+
+<img width="1512" alt="Screen Shot 2022-04-09 at 7 53 58 PM" src="https://user-images.githubusercontent.com/90540881/162595403-9b5b5742-de12-4a8d-bd5e-345e0e27c296.png">
 
 ## Dependencies/ Technologies
 - HTML
